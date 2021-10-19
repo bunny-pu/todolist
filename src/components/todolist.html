@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <link rel="stylesheet" type="text/css" href="todolist.css">
+</header>
+
+<script type="text/javascript">
+
+
+    class TodoItem {
+
+        constructor(id, text, checked) {
+            this.id = id
+            this.text = text
+            this.checked = checked
+
+        }
+
+        getText() {
+            return this.text
+        }
+
+    }
+
+    var todolist = [new TodoItem(2, "Sleep", false), new TodoItem(1, "Eat",false), new TodoItem(0, "Exercise",false)]
+    var index = 3;
+
+    window.οnlοad = function () {
+       
+        var oUl = document.getElementById('vehicle1');
+
+        oUl.οnmοuseοver = function () {
+            print('dfa')
+            document.getElementById('ppp').style.display = 'block';
+        };
+
+        oUl.οnmοuseοut = function () {
+            print('555')
+            document.getElementById('ppp').style.display = 'none';
+        }
+        
+    };
+
+    function func1(id) {
+        document.getElementById(id + "deletehint").style.visibility = 'hidden';
+    }
+
+
+    function func(id) {
+        document.getElementById(id + "deletehint").style.visibility = 'visible';
+
+    }
+
+    function checck(checkbox) {
+        var index = todolist.length - checkbox.id
+        todolist[index].checked = checkbox.checked
+        updateSummary()
+    }
+
+    function updateSummary() {
+        var finishTodoNumber = 0
+        todolist.forEach((value, i) => {
+            if(value.checked) {
+                finishTodoNumber++;
+            }
+        })
+
+        console.log("clicked")
+
+        document.getElementById("vehicletext").innerText = "已完成" + finishTodoNumber +"/全部"+ todolist.length
+    }
+
+    function fun3(event) {
+        if(event.keyCode == 13) {
+
+            todolist.unshift(new TodoItem(todolist.length -1, document.getElementById("f55").value, false))
+
+            //然后一个个加上元素
+            showList()
+        }
+    }
+
+    function showList() {
+        //先删除所有的元素
+        var form = document.getElementById("iii")
+        var child = form.lastElementChild
+            while(child) {
+                form.removeChild(child)
+                child = form.lastElementChild
+            }
+        todolist.forEach((v,i) => {
+                console.log(v + "---" + i)
+                var div = document.createElement("div")
+                document.getElementById("iii").appendChild(div)
+                var input = document.createElement("input")
+                input.setAttribute("type","checkbox")
+                var id = todolist.length - i
+                input.setAttribute("id", id)
+                input.checked = v.checked
+                input.setAttribute("onclick", "checck(this)")
+                div.onmouseover = function() {
+                    document.getElementById(id + "deletehint").style.visibility = 'visible';
+
+                };
+                div.onmouseout =  function() {
+                    console.log("out")
+                    document.getElementById(id + "deletehint").style.visibility = 'hidden';
+
+                };
+
+                var labelElement = document.createElement("label")
+                labelElement.setAttribute("for", i)
+                labelElement.innerText =  v.text
+                if (i !=0) {
+                    var hrElement = document.createElement("hr")
+                    div.appendChild(hrElement)
+                }
+                div.appendChild(input)
+                div.appendChild(labelElement)
+                var aElement = document.createElement("a")
+                aElement.onclick = function() {
+                    todolist.splice(i, 1)
+                    showList()
+                }
+                aElement.setAttribute("id", id + "deletehint")
+                aElement.innerText = "删除此项待办"
+                aElement.style.visibility = 'hidden'
+                div.appendChild(aElement)
+
+                var summary = document.createElement("label");
+                summary.setAttribute("id", "summarytext")
+                document.getElementById("lll").appendChild(summary)
+            });
+
+        updateSummary()
+
+    }
+
+    function checkAll(checkbox) {
+        
+        todolist.forEach((v,i) => {
+             v.checked = checkbox.checked
+        })
+        showList()
+        
+    }
+
+</script>
+
+<body>
+    <div class="total">
+        <input class="addtodo" id="f55" placeholder="请输入代办事项" onkeydown="fun3(event)"/>
+
+        <div class="list"  id="lll">
+            <form action="/action_page.php" id="iii">
+                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" onmouseover = "func()"  onmouseout = "func1()">
+                <label for="vehicle1" id="vehicletext"> I have a bike</label>
+                <a id="ppp">删除此项待办</a>
+                <br>
+                <hr>
+                <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+                <label for="vehicle2"> I have a car</label>
+                <a id="ppp">删除此项待办</a>
+                <br>
+                <hr>
+                <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+                <label for="vehicle3"> I have a boat</label>
+                <a id="ppp">删除此项待办</a>
+                <br>
+            </form>
+        </div>
+
+        <input class="sub" type="checkbox" id="sub_todos" onclick="checkAll(this)">
+                <label for="vehicle1" id="vehicletext"> 已完成0/全部3</label><br>
+    </div>
+</body>
+
+</html>
